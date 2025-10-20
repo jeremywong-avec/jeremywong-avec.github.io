@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This entire website is licensed under the GNU AGPLv3. -->
+    <title>Jeremy Wong | Urban & Transportation Planning</title>
+    <meta name="description" content="Portfolio of Jeremy Wong, a graduate urban planning student at USC focusing on sustainable and equitable transportation.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22%3E%3Ctext%20y=%22.9em%22%20font-size=%2290%22%3E🏙️%3C/text%3E%3C/svg%3E">
+    
+    <style>
+        /* ------------------- */
+        /* --- Local Font Definition (@font-face) --- */
+        /* ------------------- */
+        @font-face {
+            font-family: 'Lexend';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            /* Make sure you have a 'Lexend-Bold.ttf' file in your 'fonts' folder */
+            src: url('./fonts/Lexend-Bold.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Atkinson Hyperlegible';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('./fonts/AtkinsonHyperlegible-Regular.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Atkinson Hyperlegible';
+            font-style: italic;
+            font-weight: 400;
+            font-display: swap;
+            src: url('./fonts/AtkinsonHyperlegible-Italic.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Atkinson Hyperlegible';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url('./fonts/AtkinsonHyperlegible-Bold.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Atkinson Hyperlegible';
+            font-style: italic;
+            font-weight: 700;
+            font-display: swap;
+            src: url('./fonts/AtkinsonHyperlegible-BoldItalic.ttf') format('truetype');
+        }
+
+        /* ------------------- */
+        /* --- CSS Reset --- */
+        /* ------------------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ------------------- */
+        /* --- THEME & COLOR PALETTE --- */
+        /* ------------------- */
+        :root {
+            /* Default: Dark Mode */
+            --color-primary-bg: #1A051E; /* Darker Aubergine */
+            --color-secondary-bg: #3B0D4B; /* Aubergine */
+            --color-primary-text: #F2F0E6; /* Cream for text */
+            --color-secondary-text: #D4C2D8; /* Lavender for subtle accents */
+            --color-accent: #C8AF76; /* Gold */
+            --color-border: #522161; /* Darker lavender for borders */
+            --shadow-color: rgba(200, 175, 118, 0.1);
+
+            --font-heading: 'Lexend', sans-serif;
+            --font-body: 'Atkinson Hyperlegible', sans-serif;
+        }
+
+        /* Light Mode Overrides */
+        body[data-theme="light"] {
+            --color-primary-bg: #FFFFFF; /* White */
+            --color-secondary-bg: #F2E6FF; /* Very Light Purple */
+            --color-primary-text: #000000; /* Black */
+            --color-secondary-text: #6A0DAD; /* Purple for accents */
+            --color-accent: #6A0DAD; /* Purple for links/headings */
+            --color-border: #DCC2EE; /* Lighter Purple for borders */
+            --shadow-color: rgba(106, 13, 173, 0.15); /* Purple shadow */
+        }
+
+        /* ------------------- */
+        /* --- Accessibility & Base --- */
+        /* ------------------- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-primary-bg);
+            color: var(--color-primary-text);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* ------------------- */
+        /* --- Typography & Links --- */
+        /* ------------------- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            line-height: 1.2;
+            color: var(--color-accent);
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-bottom: 1.5rem; }
+        h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); margin-bottom: 0.5rem; }
+        h4 { font-size: clamp(1.1rem, 2.5vw, 1.25rem); margin-bottom: 0.25rem; color: var(--color-secondary-text);}
+
+        p { margin-bottom: 1rem; max-width: 65ch; }
+        
+        a {
+            color: var(--color-accent);
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            transition: color 0.3s ease, text-decoration-color 0.3s ease;
+        }
+        a:hover, a:focus {
+            color: var(--color-secondary-text);
+            text-decoration-color: var(--color-secondary-text);
+        }
+
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* ------------------- */
+        /* --- Layout & Structure --- */
+        /* ------------------- */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .grid--2-cols { grid-template-columns: repeat(2, 1fr); }
+            .grid--3-cols { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--color-accent);
+            color: var(--color-primary-bg);
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ------------------- */
+        /* --- Header & Navigation --- */
+        /* ------------------- */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--color-secondary-bg);
+            border-bottom: 2px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--color-primary-text);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .logo .logo-short-name {
+            display: none;
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+        .main-nav a {
+            font-weight: 700;
+            font-family: var(--font-heading);
+            text-decoration: none;
+            color: var(--color-secondary-text);
+        }
+        .main-nav a:hover, .main-nav a:focus {
+             color: var(--color-primary-text);
+        }
+        
+        /* ------------------- */
+        /* --- Theme Toggle Switch --- */
+        /* ------------------- */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 54px;
+        }
+        .theme-switch input {
+            display:none;
+        }
+        .slider {
+            background-color: var(--color-primary-bg);
+            border: 1px solid var(--color-border);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+        }
+        .slider svg {
+            height: 16px;
+            width: 16px;
+            stroke: var(--color-secondary-text);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: opacity 0.3s ease;
+        }
+        body:not([data-theme="light"]) .slider .sun-icon { opacity: 0; }
+        body[data-theme="light"] .slider .moon-icon { opacity: 0; }
+
+        .slider-ball {
+            background-color: var(--color-accent);
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            transition: .4s;
+            z-index: 2;
+        }
+        input:checked + .slider .slider-ball {
+            transform: translateX(26px);
+        }
+        .theme-label {
+            margin-left: 0.75rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--color-primary-text);
+            transition: color 0.3s ease;
+        }
+
+        /* ------------------- */
+        /* --- Sections & Cards --- */
+        /* ------------------- */
+        section {
+            border-bottom: 1px solid var(--color-border);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+        
+        .card {
+            background-color: var(--color-secondary-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+
+        .hero {
+            text-align: center;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero .subtitle {
+            font-size: 1.25rem;
+            max-width: 60ch;
+            margin: 0 auto;
+            color: var(--color-secondary-text);
+        }
+
+        .tag-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background-color: var(--color-primary-bg);
+            color: var(--color-secondary-text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        /* ------------------- */
+        /* --- Resume Section Specifics --- */
+        /* ------------------- */
+        .download-button {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: var(--color-primary-bg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .download-button:hover, .download-button:focus {
+            transform: translateY(-2px);
+            border-color: var(--color-accent);
+            color: var(--color-primary-text);
+            background-color: transparent;
+        }
+        
+        .resume-html-version {
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 2rem;
+            background-color: var(--color-secondary-bg);
+        }
+        .resume-html-version h3 {
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .resume-html-version .job-entry {
+            margin-bottom: 1.5rem;
+        }
+        .resume-html-version .job-entry p {
+            margin-bottom: 0.5rem;
+        }
+        .resume-html-version .job-dates {
+            font-style: italic;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            color: var(--color-secondary-text);
+        }
+        .resume-html-version ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .resume-html-version ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* ------------------- */
+        /* --- Footer --- */
+        /* ------------------- */
+        .main-footer {
+            text-align: center;
+            padding: 2rem 5%;
+            background-color: var(--color-secondary-bg);
+            border-top: 2px solid var(--color-border);
+        }
+        .main-footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .main-footer .social-links a svg {
+            stroke: var(--color-secondary-text);
+            transition: stroke 0.3s ease;
+        }
+        .main-footer .social-links a:hover svg, .main-footer .social-links a:focus svg {
+            stroke: var(--color-accent);
+        }
+        
+        .footer-motto, .footer-note {
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--color-secondary-text);
+        }
+
+        /* ------------------- */
+        /* --- Responsive Design --- */
+        /* ------------------- */
+        @media (max-width: 920px) {
+            .logo .logo-full-name {
+                display: none;
+            }
+            .logo .logo-short-name {
+                display: inline;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .container {
+                padding: 2rem 0;
+            }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <header class="main-header" role="banner">
+        <a href="#" class="logo" aria-label="Jeremy Wong - Home"><span class="logo-full-name">Jeremy Wong</span><span class="logo-short-name">Jere Wong</span></a>
+        
+        <nav class="main-nav" role="navigation" aria-label="Main Navigation">
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#resume">Resume</a></li>
+                <li><a href="#connect">Connect</a></li>
+            </ul>
+        </nav>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="theme-toggle" aria-label="Toggle dark and light mode">
+                <input type="checkbox" id="theme-toggle">
+                <div class="slider">
+                    <!-- Sun icon from Feather Icons (MIT License) -->
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <!-- Moon icon from Feather Icons (MIT License) -->
+                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    <span class="slider-ball"></span>
+                </div>
+            </label>
+            <span id="theme-label" class="theme-label" aria-live="polite"></span>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section class="hero">
+            <div class="container">
+                <h1>Crafting Livable Futures</h1>
+                <p class="subtitle">
+                    I'm Jeremy Wong, a graduate student at USC's Price School of Public Policy. I use data, design, and policy to build equitable, sustainable, and human-centered transportation systems for California.
+                </p>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <h2>From Stop Signs to Skylines</h2>
+            <div class="grid grid--2-cols">
+                <div class="about-text">
+                    <p>
+                        My path to urban planning has been... scenic. It began with a Political Science degree from UC Davis, which was great practice for writing a 10-page paper on why a stop sign is a metaphor for societal decay. Now, at USC's Price School, I'm leveling up my real-life City: Skylines skills—using ArcGIS and Python to build better communities, just with real-world impact and fewer meteor strikes.
+                    </p>
+                     <p>
+                        My philosophy is simple: build <em>with</em> people. Otherwise, you get a city designed by someone whose only interaction with a bus is seeing one from their penthouse. I’m passionate about creating a future that’s less about six lanes of existential dread and more about vibrant plazas where your biggest decision is 'taco truck or artisanal coffee?' It's about swapping car horns for street musicians and building a California so walkable, your Fitbit will file for overtime.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Education</h3>
+                    <p><strong>Master of Urban Planning</strong><br>
+                    University of Southern California, Price School of Public Policy<br>
+                    <em>Expected Graduation: May 2027</em></p>
+                    
+                    <p><strong>Bachelor of Arts, Political Science - Public Service</strong><br>
+                    University of California, Davis<br>
+                    <em>Graduated: March 2023</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="container">
+            <h2>Featured Projects</h2>
+            <div class="grid grid--3-cols">
+                
+                <article class="card" aria-labelledby="p1-title">
+                    <h3 id="p1-title">Mapping Pollution & Vulnerability</h3>
+                    <p>Analysis of traffic pollution impacts on vulnerable communities in Los Angeles, identifying hotspots and informing policy recommendations for environmental justice.</p>
+                    <ul class="tag-list" role="list">
+                        <li class="tag" role="listitem">Python</li>
+                        <li class="tag" role="listitem">ArcGIS Pro</li>
+                        <li class="tag" role="listitem">QGIS</li>
+                        <li class="tag" role="listitem">Data Visualization</li>
+                    </ul>
+                </article>
+                
+                <article class="card" aria-labelledby="p2-title">
+                    <h3 id="p2-title">TOD Communication Design</h3>
+                    <p>Developed a full-page spread for a mock transit-oriented development proposal, communicating complex plans into a visually compelling and accessible format in under 10 minutes.</p>
+                    <ul class="tag-list" role="list">
+                        <li class="tag" role="listitem">Adobe InDesign</li>
+                        <li class="tag" role="listitem">Graphic Design</li>
+                        <li class="tag" role="listitem">Urban Design</li>
+                    </ul>
+                </article>
+
+                <article class="card" aria-labelledby="p3-title">
+                    <h3 id="p3-title">Animating Urban Mobility</h3>
+                    <p>Created dynamic motion graphics to visualize proposed changes to transit routes and pedestrian flows, making the benefits of new infrastructure clear and engaging for public outreach.</p>
+                    <ul class="tag-list" role="list">
+                        <li class="tag" role="listitem">Adobe After Effects</li>
+                        <li class="tag" role="listitem">Motion Graphics</li>
+                        <li class="tag" role="listitem">Community Engagement</li>
+                    </ul>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="skills" class="container">
+            <h2>Core Competencies</h2>
+            <div class="grid grid--2-cols">
+                <div class="card">
+                    <h3>Geospatial & Data Analysis</h3>
+                    <ul>
+                        <li>Python (Pandas, GeoPandas)</li>
+                        <li>ArcGIS Pro</li>
+                        <li>QGIS</li>
+                        <li>Microsoft Excel & Google Sheets</li>
+                        <li>Data Management & Consolidation</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Design & Communication</h3>
+                    <ul>
+                        <li>Adobe InDesign (Rapid Prototyping)</li>
+                        <li>Adobe Illustrator (Vector Graphics)</li>
+                        <li>Adobe Photoshop (Raster Graphics)</li>
+                        <li>Adobe After Effects (Motion Graphics)</li>
+                        <li>Canva</li>
+                        <li>Policy Research & Briefing</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume" class="container">
+            <h2>My Resume</h2>
+            <p>You can view my resume below, or download a copy directly.</p>
+            <a href="Jeremy_Wong_Resume.pdf" class="download-button" target="_blank" rel="noopener noreferrer">Download PDF Version</a>
+            
+            <div class="resume-html-version" role="article" aria-label="Resume of Jeremy Wong">
+                
+                <h3>Education</h3>
+                <div class="job-entry">
+                    <h4>Master of Urban Planning</h4>
+                    <p>University of Southern California, Price School of Public Policy</p>
+                    <p class="job-dates">Expected Graduation: May 2027</p>
+                </div>
+                <div class="job-entry">
+                    <h4>Bachelor of Arts, Political Science - Public Service</h4>
+                    <p>University of California, Davis</p>
+                    <p class="job-dates">Graduated: March 2023</p>
+                </div>
+
+                <h3>Skills</h3>
+                <ul class="tag-list">
+                    <li class="tag">Python</li>
+                    <li class="tag">ArcGIS Pro</li>
+                    <li class="tag">QGIS</li>
+                    <li class="tag">Adobe InDesign</li>
+                    <li class="tag">Adobe Illustrator</li>
+                    <li class="tag">Manual Camera Operation</li>
+                    <li class="tag">Canva</li>
+                    <li class="tag">MS Excel</li>
+                    <li class="tag">Google Sheets</li>
+                    <li class="tag">Mailchimp</li>
+                </ul>
+
+                <h3>Experience</h3>
+                <div class="job-entry">
+                    <h4>Zine Photographer and Spread Designer, Dear Asian Youth @ USC</h4>
+                    <p class="job-dates">Aug 2024 - Present</p>
+                    <ul>
+                        <li>Captured over 200+ high quality stock photos using manual controls on the Canon EOS 6D Mark II and created 170+ custom graphics utilizing Adobe Illustrator.</li>
+                        <li>Designed over 83+ spreads in Adobe InDesign and Canva for the Fall 2024 and Spring 2025 Issues.</li>
+                    </ul>
+                </div>
+                <div class="job-entry">
+                    <h4>Communications Intern, CA Asian American Pacific Islander Legislative Caucus (AAPILC)</h4>
+                    <p class="job-dates">Jan 2022 - Mar 2022</p>
+                    <ul>
+                        <li>Consolidated and managed data using Excel for key community partners for the inaugural AAPILC monthly newsletter.</li>
+                        <li>Increased online visibility and accessibility by updating and redesigning the AAPILC's website.</li>
+                        <li>Created over 15+ original content posts with Adobe Illustrator for newsletters and the website.</li>
+                        <li>Drafted talking points for AAPILC Chair Senator Richard Pan for various events.</li>
+                    </ul>
+                </div>
+                <div class="job-entry">
+                    <h4>District Office Intern, Office of California State Senator Skinner (SD-09)</h4>
+                    <p class="job-dates">Jun 2021 - Sep 2021</p>
+                    <ul>
+                        <li>Conducted research projects on food inequity, resident displacement, and higher education to advise policy positions.</li>
+                        <li>Provided constituent services via email, created over 30 casework intakes a day, and assisted District Representatives.</li>
+                    </ul>
+                </div>
+                <div class="job-entry">
+                    <h4>Research Assistant, Blum Initiative on Global and Regional Poverty</h4>
+                    <p class="job-dates">Aug 2019 - Aug 2020</p>
+                    <ul>
+                        <li>Interviewed California State Legislators utilizing Qualtrics to advance the understanding of poverty.</li>
+                        <li>Standardized communication methods by introducing Slack as the primary internal point of contact.</li>
+                        <li>Simplified question style block design in Qualtrics, speeding up interview duration times.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="connect" class="container">
+            <h2>Let's Connect</h2>
+            <p>Whether you've got a groundbreaking project, a research opportunity, or just want to debate the optimal number of taco trucks per plaza, my digital door is always open. Let's connect.</p>
+        </section>
+
+    </main>
+
+    <footer class="main-footer" role="contentinfo">
+        <ul class="social-links" role="list">
+            <li role="listitem"><a href="#" aria-label="LinkedIn Profile">
+                <!-- Feather Icons (MIT License) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a></li>
+            <li role="listitem"><a href="#" aria-label="GitHub Profile">
+                 <!-- Feather Icons (MIT License) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a></li>
+        </ul>
+        <p class="footer-motto">Liberty 🕊️ Equality ⚖️ Adelphité 🤝</p>
+        <p class="footer-note" id="copyright-year">&copy; 2025 Jeremy Wong. <br>Source code is licensed under the GNU AGPLv3.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeLabel = document.getElementById('theme-label');
+            const body = document.body;
+            const copyrightYear = document.getElementById('copyright-year');
+
+            const applyTheme = (theme) => {
+                if (theme === 'light') {
+                    body.setAttribute('data-theme', 'light');
+                    themeToggle.checked = true;
+                    themeToggle.setAttribute('aria-checked', 'true');
+                    themeLabel.textContent = 'Light Mode';
+                } else {
+                    body.removeAttribute('data-theme');
+                    themeToggle.checked = false;
+                    themeToggle.setAttribute('aria-checked', 'false');
+                    themeLabel.textContent = 'Dark Mode';
+                }
+            };
+            
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            applyTheme(savedTheme);
+
+            themeToggle.addEventListener('change', () => {
+                const newTheme = themeToggle.checked ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            if (copyrightYear) {
+                copyrightYear.innerHTML = `&copy; ${new Date().getFullYear()} Jeremy Wong. <br>Source code is licensed under the GNU AGPLv3.`;
+            }
+        });
+    </script>
+</body>
+</html>
+
